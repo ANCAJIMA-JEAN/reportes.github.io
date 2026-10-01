@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Precios de productos | Fitosanidad</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--bg:#f6f7f8;--card:#fff;--ink:#16202a;--mut:#667381;--line:#e3e6ea;--soft:#f2f4f5;--acc:#1f6b45;--accbg:#e8f3ec}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 'IBM Plex Sans',system-ui,sans-serif;font-variant-numeric:tabular-nums}
+header{background:#fff;border-bottom:1px solid var(--line)}
+.top{max-width:1120px;margin:0 auto;padding:22px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+h1{font:700 26px/1.15 'IBM Plex Sans',sans-serif;margin:0;letter-spacing:-.01em}
+.sub{color:var(--mut);margin:2px 0 0;font-size:14px}
+.btn{font:600 14px 'IBM Plex Sans',sans-serif;border:0;border-radius:10px;padding:11px 18px;cursor:pointer;background:var(--acc);color:#fff}
+.btn:hover{background:#185738}
+.btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+.btn:focus-visible,.card:focus-visible,.chip:focus-visible,.x:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #8cc7a5;outline-offset:2px}
+main{max-width:1120px;margin:0 auto;padding:20px 20px 60px}
+.bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.bar input{flex:1;min-width:240px;font:400 16px 'IBM Plex Sans',sans-serif;padding:13px 16px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.bar input:focus{border-color:var(--acc)}
+.chips{display:flex;gap:6px}
+.chip{font:500 14px 'IBM Plex Sans',sans-serif;padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--mut);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.meta{display:flex;justify-content:space-between;color:var(--mut);font-size:13px;margin:10px 2px 14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;text-align:left;cursor:pointer;color:inherit;font:inherit;display:flex;flex-direction:column;gap:2px;transition:border-color .15s,box-shadow .15s}
+.card:hover{border-color:#b9c3cc;box-shadow:0 4px 14px rgba(22,32,42,.06)}
+.badge{display:flex;gap:6px;font-size:12px;font-weight:600;color:var(--mut);margin-bottom:6px}
+.badge i{font-style:normal;padding:2px 8px;border-radius:6px;background:var(--soft)}
+.badge i.new{background:var(--accbg);color:var(--acc)}
+.card h3{font:700 17px/1.25 'IBM Plex Sans',sans-serif;margin:0}
+.ia{color:var(--mut);font-size:13.5px;min-height:20px;margin-bottom:12px}
+.mx{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);margin-top:auto}
+.mx div{padding:10px 0 0}
+.mx small{display:block;color:var(--mut);font-size:12px}
+.mx b{font-weight:600;font-size:15px}
+.cost{display:flex;justify-content:space-between;align-items:baseline;margin-top:12px;padding:10px 12px;background:var(--accbg);border-radius:10px}
+.cost small{color:var(--acc);font-weight:600;font-size:13px}
+.cost b{font-size:20px;font-weight:700;color:var(--acc)}
+.empty{grid-column:1/-1;padding:48px;text-align:center;color:var(--mut)}
+dialog{border:0;border-radius:18px;padding:0;max-width:540px;width:calc(100% - 24px);background:#fff;color:var(--ink);box-shadow:0 24px 70px rgba(10,20,30,.3)}
+dialog::backdrop{background:rgba(15,22,30,.5)}
+.dl{padding:24px}
+.x{float:right;border:0;background:var(--soft);color:var(--ink);width:34px;height:34px;border-radius:50%;font-size:20px;cursor:pointer}
+dl{display:grid;grid-template-columns:1fr auto;margin:14px 0}
+dt,dd{margin:0;padding:9px 0;border-bottom:1px solid var(--line)}
+dt{color:var(--mut)} dd{text-align:right;font-weight:600;max-width:300px;margin-left:auto}
+.sim{background:var(--soft);border-radius:14px;padding:16px;margin-top:8px}
+.sim h4{margin:0 0 10px;font:700 15px 'IBM Plex Sans',sans-serif}
+.inp{display:flex;gap:10px}
+label{flex:1;font-size:13px;color:var(--mut);display:block;margin-bottom:10px}
+label input,label select{width:100%;margin-top:4px;font:500 16px 'IBM Plex Sans',sans-serif;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.res{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.res div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.res small{display:block;color:var(--mut);font-size:12px}
+.res b{font-size:20px;font-weight:700}
+.res .c{background:var(--accbg);border-color:transparent}.res .c b,.res .c small{color:var(--acc)}
+.note{font-size:12px;color:var(--mut);margin-top:10px}
+.msg{padding:10px 14px;border-radius:10px;margin-bottom:14px;font-size:13.5px;background:#fff7e0;color:#6a4b00}
+.msg.ok{background:var(--accbg);color:var(--acc)}
+.acts{display:flex;gap:10px;justify-content:flex-end;margin-top:14px}
+.err{color:#b3261e;font-size:13px;min-height:18px}
+</style>
+</head>
+<body>
+<header><div class="top">
+  <div><h1>Precios de productos</h1><p class="sub">Agroquímicos y fertilizantes · costo por litro y por hectárea</p></div>
+  <button class="btn" id="addBtn">Agregar nuevo producto</button>
+</div></header>
+<main>
+  <div id="aviso"></div>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Buscar por nombre comercial o ingrediente activo" autocomplete="off" aria-label="Buscar producto">
+    <div class="chips" id="chips">
+      <button class="chip" data-t="" aria-pressed="true">Todos</button>
+      <button class="chip" data-t="Agroquímico" aria-pressed="false">Agroquímicos</button>
+      <button class="chip" data-t="Fertilizante" aria-pressed="false">Fertilizantes</button>
+    </div>
+  </div>
+  <div class="meta"><span id="count"></span><span id="upd"></span></div>
+  <div class="grid" id="grid"></div>
+</main>
+<dialog id="dlg"><div class="dl" id="dbody"></div></dialog>
+
+<script>
+/* ====== CONFIGURACIÓN ====== */
+const SHEET_CSV_URL = "";   // enlace CSV de Google Sheets (Archivo > Compartir > Publicar en la web)
+const APPS_SCRIPT_URL = ""; // URL /exec del Apps Script que guarda productos nuevos (ver apps_script.gs)
+const CIL = 200;            // litros por cilindro
+const MONEDA = "$";
+
+/* Datos de respaldo: se usan mientras SHEET_CSV_URL esté vacío o falle */
+const FALLBACK = [{"codigo_sap":"PEST-0002","proveedor":"Bayer S.A.","tipo_producto":"Agroquímico","producto":"ABSOLUTE 60 SC","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0.25,"precio_litro":180,"activo":"SI"},{"codigo_sap":"FERT-0009","proveedor":"","tipo_producto":"Fertilizante","producto":"ACIDO FOSFORICO 85% [GRADO ALIMENTICIO]","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":1.3077,"activo":"SI"},{"codigo_sap":"PEST-1694","proveedor":"SOLAGRI","tipo_producto":"Agroquímico","producto":"ACIDOR","ingrediente_activo":"","dosis_cil":0.04,"volumen":1000,"dosis_ha":0.2,"precio_litro":5.9916,"activo":"SI"},{"codigo_sap":"PEST-1242","proveedor":"AMVAC","tipo_producto":"Agroquímico","producto":"AGRIOIL 99 SL","ingrediente_activo":"Adherente, Penetrante-Aniónico Aceite Mineral Parafínico","dosis_cil":"","volumen":1000,"dosis_ha":10,"precio_litro":3.1075,"activo":"SI"},{"codigo_sap":"STIM-0116","proveedor":"DUWEST DROKASA","tipo_producto":"Fertilizante","producto":"AGROCIMAX PLUS","ingrediente_activo":"","dosis_cil":0.25,"volumen":1000,"dosis_ha":1.25,"precio_litro":70.6979,"activo":"SI"},{"codigo_sap":"FERT-0040","proveedor":"","tipo_producto":"Fertilizante","producto":"AGROXILATO K AE","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":8.56,"activo":"SI"},{"codigo_sap":"FERT-1803","proveedor":"FUTURECO BIOSCIENCE","tipo_producto":"Fertilizante","producto":"ALFOSITOL","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":1.2,"precio_litro":8.4155,"activo":"SI"},{"codigo_sap":"STIM-0009","proveedor":"FUTURECO BIOSCIENCE","tipo_producto":"Fertilizante","producto":"ALGALIV DUO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":1,"precio_litro":7.76,"activo":"SI"},{"codigo_sap":"FERT-2109","proveedor":"PHYTOMA CROPSCIENCE","tipo_producto":"Fertilizante","producto":"AMINOLOM PROVIT","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0.5,"precio_litro":25,"activo":"SI"},{"codigo_sap":"PEST-1233","proveedor":"SILVESTRE","tipo_producto":"Agroquímico","producto":"AMIPRID 20 SP","ingrediente_activo":"Acetamiprid : 200 g/kg","dosis_cil":0.2,"volumen":1000,"dosis_ha":1,"precio_litro":13.5,"activo":"SI"},{"codigo_sap":"PEST-0026","proveedor":"SYNGENTA","tipo_producto":"Agroquímico","producto":"AMISTAR 50 WG","ingrediente_activo":"Azoxystrobin","dosis_cil":"","volumen":1000,"dosis_ha":0.35,"precio_litro":98.0844,"activo":"SI"},{"codigo_sap":"STIM-0224","proveedor":"ATLANTICA","tipo_producto":"Fertilizante","producto":"ARCHER ECLIPSE","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":3,"precio_litro":7.95,"activo":"SI"},{"codigo_sap":"PEST-0735","proveedor":"POINT ANDINA","tipo_producto":"Agroquímico","producto":"ASPIRE 120","ingrediente_activo":"Spinosad","dosis_cil":0.075,"volumen":1000,"dosis_ha":0.375,"precio_litro":86.1469,"activo":"SI"},{"codigo_sap":"PEST-1299","proveedor":"SILVESTRE","tipo_producto":"Agroquímico","producto":"BAMECTIN","ingrediente_activo":"abamectina","dosis_cil":0.4,"volumen":1000,"dosis_ha":2,"precio_litro":5.0001,"activo":"SI"},{"codigo_sap":"STIM-0190","proveedor":"AVGUST CROPS PROTECTION","tipo_producto":"Fertilizante","producto":"BARIG RED","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":1.2,"precio_litro":18.4875,"activo":"SI"},{"codigo_sap":"PEST-0053","proveedor":"MONTANA","tipo_producto":"Agroquímico","producto":"BARRERA","ingrediente_activo":"Extracto de orégano","dosis_cil":0.8,"volumen":1000,"dosis_ha":4,"precio_litro":8.0454,"activo":"SI"},{"codigo_sap":"PEST-1728","proveedor":"NUTRIGENERIC","tipo_producto":"Agroquímico","producto":"BATAKAZO","ingrediente_activo":"","dosis_cil":0.5,"volumen":1000,"dosis_ha":2.5,"precio_litro":23,"activo":"SI"},{"codigo_sap":"FERT-0084","proveedor":"","tipo_producto":"Fertilizante","producto":"BETABERRY ECO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":2.5366,"activo":"SI"},{"codigo_sap":"PEST-0082","proveedor":"SILVESTRE","tipo_producto":"Agroquímico","producto":"BIOKARANYA [EXTRACTO DE KARANJA]","ingrediente_activo":"Extracto de Karanja oil : 60 %","dosis_cil":0.5,"volumen":1000,"dosis_ha":2.5,"precio_litro":19,"activo":"SI"},{"codigo_sap":"STIM-0137","proveedor":"FUTURECO BIOSCIENCE","tipo_producto":"Fertilizante","producto":"BOTAMISOL 80 PRO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0.5,"precio_litro":17.5999,"activo":"SI"},{"codigo_sap":"PEST-0097","proveedor":"TQC","tipo_producto":"Agroquímico","producto":"BOTRAN 83 AK WP [CAPTAN] FU","ingrediente_activo":"Captan 830 g/Kg","dosis_cil":0.4,"volumen":1000,"dosis_ha":2,"precio_litro":15.7647,"activo":"SI"},{"codigo_sap":"ADDI-0015","proveedor":"BASF","tipo_producto":"Fertilizante","producto":"BREAK THRU BIDON","ingrediente_activo":"Polyether – Polymethylsiloxane","dosis_cil":0.05,"volumen":1000,"dosis_ha":0.25,"precio_litro":26.2165,"activo":"SI"},{"codigo_sap":"PEST-0101","proveedor":"CROPS PROTECTION","tipo_producto":"Agroquímico","producto":"BTK-CROPS SC [BACILLUS THURINGIENSIS] IN","ingrediente_activo":"","dosis_cil":0.5,"volumen":1000,"dosis_ha":2.5,"precio_litro":23,"activo":"SI"},{"codigo_sap":"PEST-1338","proveedor":"MONTANA","tipo_producto":"Agroquímico","producto":"CADENA","ingrediente_activo":"Boscalid","dosis_cil":0.3,"volumen":1000,"dosis_ha":1.5,"precio_litro":65.0308,"activo":"SI"},{"codigo_sap":"FERT-2110","proveedor":"SOLAGRI","tipo_producto":"Fertilizante","producto":"CITOPLUS+","ingrediente_activo":"Zeatina (Citoquinina natural)","dosis_cil":"","volumen":1000,"dosis_ha":2.4,"precio_litro":20,"activo":"SI"},{"codigo_sap":"PEST-0135","proveedor":"Bayer CropScience","tipo_producto":"Agroquímico","producto":"CONFIDOR 350 SC","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":17.87,"activo":"SI"},{"codigo_sap":"PEST-0144","proveedor":"CROPS PROTECTION","tipo_producto":"Agroquímico","producto":"CROPS CANELA [CINNAMOMUN VERUM]","ingrediente_activo":"Aceite de Canela","dosis_cil":0.2,"volumen":1000,"dosis_ha":1,"precio_litro":20,"activo":"SI"},{"codigo_sap":"FERT-0175","proveedor":"PROMITEC","tipo_producto":"Fertilizante","producto":"CYTO FLOW AMIN","ingrediente_activo":"aminoacidos","dosis_cil":"","volumen":1000,"dosis_ha":1,"precio_litro":13.3854,"activo":"SI"},{"codigo_sap":"FERT-0177","proveedor":"PROMITEC","tipo_producto":"Fertilizante","producto":"CYTOLAN","ingrediente_activo":"Extracto de Algas","dosis_cil":"","volumen":1000,"dosis_ha":1.5,"precio_litro":13.4415,"activo":"SI"},{"codigo_sap":"PEST-0158","proveedor":"FARMAGRO","tipo_producto":"Agroquímico","producto":"DESTRUCTOR SL [GLYPHOSATE] HE","ingrediente_activo":"Glyphosale 480 g/L","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":2.9,"activo":"SI"},{"codigo_sap":"FERT-0187","proveedor":"","tipo_producto":"Fertilizante","producto":"DISPER CHLOROPHYL GS","ingrediente_activo":"Nitrógeno","dosis_cil":"","volumen":1000,"dosis_ha":1,"precio_litro":37.4457,"activo":"SI"},{"codigo_sap":"PEST-0688","proveedor":"","tipo_producto":"Agroquímico","producto":"ELITE 80 WG","ingrediente_activo":"Imidacloprod + Fipronil","dosis_cil":"","volumen":1000,"dosis_ha":0.15,"precio_litro":78.9009,"activo":"SI"},{"codigo_sap":"PEST-0178","proveedor":"","tipo_producto":"Agroquímico","producto":"EN VIVO SC [NPV] IN","ingrediente_activo":"Virus de la polihedrosis nuclear","dosis_cil":0.4,"volumen":1000,"dosis_ha":2,"precio_litro":45.5228,"activo":"SI"},{"codigo_sap":"PEST-0181","proveedor":"","tipo_producto":"Agroquímico","producto":"ENTRUST","ingrediente_activo":"Spinosad","dosis_cil":0.05,"volumen":1000,"dosis_ha":0.25,"precio_litro":177.9375,"activo":"SI"},{"codigo_sap":"FERT-1520","proveedor":"","tipo_producto":"Fertilizante","producto":"EPSO TOP","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":0.6241,"activo":"SI"},{"codigo_sap":"PEST-0188","proveedor":"","tipo_producto":"Agroquímico","producto":"EVADE 20 SP","ingrediente_activo":"Acetamiprid : 200 g/kg","dosis_cil":0.15,"volumen":1000,"dosis_ha":0.75,"precio_litro":40,"activo":"SI"},{"codigo_sap":"PEST-1302","proveedor":"","tipo_producto":"Agroquímico","producto":"FITOPLAS-PLUS","ingrediente_activo":"Extracto de canela, clavo","dosis_cil":0.5,"volumen":1000,"dosis_ha":2.5,"precio_litro":24,"activo":"SI"},{"codigo_sap":"FERT-1280","proveedor":"","tipo_producto":"Fertilizante","producto":"FITTOMAAT","ingrediente_activo":"Glicina betaina,Prolina,Nitrógeno (N)","dosis_cil":"","volumen":1000,"dosis_ha":1,"precio_litro":21.4212,"activo":"SI"},{"codigo_sap":"FERT-0245","proveedor":"","tipo_producto":"Fertilizante","producto":"FOSFATO MONOAMONICO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":1.818,"activo":"SI"},{"codigo_sap":"FERT-1830","proveedor":"","tipo_producto":"Fertilizante","producto":"FS NATURA PHOSPHORUM","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":3,"activo":"SI"},{"codigo_sap":"PEST-1540","proveedor":"","tipo_producto":"Agroquímico","producto":"GARLICIN","ingrediente_activo":"Extracto de canela, ajo","dosis_cil":0.4,"volumen":1000,"dosis_ha":2,"precio_litro":20,"activo":"SI"},{"codigo_sap":"PEST-0220","proveedor":"","tipo_producto":"Agroquímico","producto":"GLADIADOR PLUS 700 WG","ingrediente_activo":"Acetamiprid :700  g/kg","dosis_cil":0.1,"volumen":1000,"dosis_ha":0.5,"precio_litro":30,"activo":"SI"},{"codigo_sap":"STIM-0198","proveedor":"","tipo_producto":"Fertilizante","producto":"HADDAK PLUS","ingrediente_activo":"Glicina betaína","dosis_cil":"","volumen":1000,"dosis_ha":1,"precio_litro":27,"activo":"SI"},{"codigo_sap":"FERT-1523","proveedor":"","tipo_producto":"Fertilizante","producto":"IBICARBOX K POTASIO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":4.9,"activo":"SI"},{"codigo_sap":"PEST-1295","proveedor":"","tipo_producto":"Agroquímico","producto":"KADONDO-AG","ingrediente_activo":"abamectina","dosis_cil":0.1,"volumen":1000,"dosis_ha":0.5,"precio_litro":28.0,"activo":"SI"},{"codigo_sap":"PEST-0251","proveedor":"","tipo_producto":"Agroquímico","producto":"KALIGREEN SP [BICARBONATO DE POTASIO] FU","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":19,"activo":"SI"},{"codigo_sap":"PEST-1301","proveedor":"","tipo_producto":"Agroquímico","producto":"KAR-AJO","ingrediente_activo":"Extracto de ajo, neem y canela","dosis_cil":0.6,"volumen":1000,"dosis_ha":3,"precio_litro":31,"activo":"SI"},{"codigo_sap":"STIM-0055","proveedor":"","tipo_producto":"Fertilizante","producto":"KELPAK","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":16.8449,"activo":"SI"},{"codigo_sap":"PEST-1239","proveedor":"SILVESTRE","tipo_producto":"Agroquímico","producto":"MAZON 150 WP","ingrediente_activo":"Lamda-cyalothrin, emamectin benzoato","dosis_cil":0.2,"volumen":1000,"dosis_ha":1,"precio_litro":33.1525,"activo":"SI"},{"codigo_sap":"FERT-0368","proveedor":"","tipo_producto":"Fertilizante","producto":"MEGARROT [FITOHORMONA NATURAL]","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":9,"activo":"SI"},{"codigo_sap":"FERT-0372","proveedor":"","tipo_producto":"Fertilizante","producto":"METALOSATE CALCIO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":14.2202,"activo":"SI"},{"codigo_sap":"FERT-0371","proveedor":"","tipo_producto":"Fertilizante","producto":"METALOSATE MAGNESIO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":14,"activo":"SI"},{"codigo_sap":"FERT-0381","proveedor":"","tipo_producto":"Fertilizante","producto":"METALOSATE POTASIO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":14.2196,"activo":"SI"},{"codigo_sap":"PEST-1739","proveedor":"","tipo_producto":"Agroquímico","producto":"MICRO BBS","ingrediente_activo":"Beauveria bassiana.","dosis_cil":"","volumen":1000,"dosis_ha":6,"precio_litro":9.2477,"activo":"SI"},{"codigo_sap":"FERT-0396","proveedor":"","tipo_producto":"Fertilizante","producto":"MUCIGEL","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":10.8126,"activo":"SI"},{"codigo_sap":"FERT-0418","proveedor":"","tipo_producto":"Fertilizante","producto":"NITRATO DE AMONIO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":0.8895,"activo":"SI"},{"codigo_sap":"FERT-0417","proveedor":"","tipo_producto":"Fertilizante","producto":"NITRATO DE CALCIO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":0.4525,"activo":"SI"},{"codigo_sap":"FERT-0421","proveedor":"","tipo_producto":"Fertilizante","producto":"NITRATO DE POTASIO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":1.2064,"activo":"SI"},{"codigo_sap":"FERT-0778","proveedor":"","tipo_producto":"Fertilizante","producto":"ORGANCAB K (ABONO ORGANICO NK)","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":1.13,"activo":"SI"},{"codigo_sap":"PEST-0316","proveedor":"","tipo_producto":"Agroquímico","producto":"PANTERA 720 SC","ingrediente_activo":"Azufre","dosis_cil":"","volumen":1000,"dosis_ha":1.5,"precio_litro":2.3344,"activo":"SI"},{"codigo_sap":"COND-0087","proveedor":"","tipo_producto":"Fertilizante","producto":"PANTERA DETER AP 35","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":4.3,"activo":"SI"},{"codigo_sap":"PEST-0317","proveedor":"","tipo_producto":"Agroquímico","producto":"PANTERA PROCESADO","ingrediente_activo":"Azufre","dosis_cil":"","volumen":1000,"dosis_ha":25,"precio_litro":1.06,"activo":"SI"},{"codigo_sap":"FERT-2121","proveedor":"","tipo_producto":"Fertilizante","producto":"PHOSTRADE ZN","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":13,"activo":"SI"},{"codigo_sap":"FERT-0484","proveedor":"","tipo_producto":"Fertilizante","producto":"PROIN AMINO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":1.19,"activo":"SI"},{"codigo_sap":"FERT-0485","proveedor":"","tipo_producto":"Fertilizante","producto":"PROIN CALCIMAX","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":0.8902,"activo":"SI"},{"codigo_sap":"FERT-0486","proveedor":"","tipo_producto":"Fertilizante","producto":"PROIN ORGANIC","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":1.3276,"activo":"SI"},{"codigo_sap":"FERT-0492","proveedor":"","tipo_producto":"Fertilizante","producto":"PROMI CALFOR","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":4.3827,"activo":"SI"},{"codigo_sap":"FERT-0493","proveedor":"","tipo_producto":"Fertilizante","producto":"PROMI FERTIL MIX","ingrediente_activo":"Microelementos","dosis_cil":"","volumen":1000,"dosis_ha":0.75,"precio_litro":9.9394,"activo":"SI"},{"codigo_sap":"FERT-1522","proveedor":"","tipo_producto":"Fertilizante","producto":"QUELATOS THIS MICROMIX","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":9.3198,"activo":"SI"},{"codigo_sap":"FERT-0507","proveedor":"","tipo_producto":"Fertilizante","producto":"QUITOSANO BIOPLUS [ACTIVADOR RADICULAR]","ingrediente_activo":"QUITOSANO","dosis_cil":"","volumen":1000,"dosis_ha":0.5,"precio_litro":3.0459,"activo":"SI"},{"codigo_sap":"PEST-1508","proveedor":"","tipo_producto":"Agroquímico","producto":"RELIKIA","ingrediente_activo":"Tiabendazole","dosis_cil":0.25,"volumen":1000,"dosis_ha":1.25,"precio_litro":41.4431,"activo":"SI"},{"codigo_sap":"STIM-0118","proveedor":"","tipo_producto":"Fertilizante","producto":"ROOTING","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":18.4,"activo":"SI"},{"codigo_sap":"PEST-0594","proveedor":"","tipo_producto":"Agroquímico","producto":"SANICROP","ingrediente_activo":"Buprofezin, Acetamiprid","dosis_cil":0.25,"volumen":1000,"dosis_ha":1.25,"precio_litro":3.461,"activo":"SI"},{"codigo_sap":"PEST-0393","proveedor":"","tipo_producto":"Agroquímico","producto":"SKIRLA","ingrediente_activo":"Emamectin benzoato","dosis_cil":0.08,"volumen":1000,"dosis_ha":0.4,"precio_litro":30.6403,"activo":"SI"},{"codigo_sap":"FERT-1841","proveedor":"","tipo_producto":"Fertilizante","producto":"SOLU K 52","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":1.5831,"activo":"SI"},{"codigo_sap":"PEST-1529","proveedor":"","tipo_producto":"Agroquímico","producto":"STRACTA OHMAX","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":13.9233,"activo":"SI"},{"codigo_sap":"FERT-0559","proveedor":"","tipo_producto":"Fertilizante","producto":"SULFATO DE AMONIO SOLUBLE","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":0.45,"activo":"SI"},{"codigo_sap":"FERT-0564","proveedor":"","tipo_producto":"Fertilizante","producto":"SULFATO DE MAGNESIO","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":0.324,"activo":"SI"},{"codigo_sap":"FERT-0575","proveedor":"","tipo_producto":"Fertilizante","producto":"SULFATO POTASIO SOLUBLE","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":0.9747,"activo":"SI"},{"codigo_sap":"STIM-0093","proveedor":"","tipo_producto":"Fertilizante","producto":"SURROUND WP","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":3.027,"activo":"SI"},{"codigo_sap":"ADDI-0064","proveedor":"","tipo_producto":"Fertilizante","producto":"TENS APPLY","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":11.9999,"activo":"SI"},{"codigo_sap":"FERT-1804","proveedor":"","tipo_producto":"Fertilizante","producto":"UREA GRADO AUTOMOTRIZ","ingrediente_activo":"","dosis_cil":"","volumen":1000,"dosis_ha":0,"precio_litro":1.4,"activo":"SI"},{"codigo_sap":"PEST-1509","proveedor":"SILVESTRE","tipo_producto":"Agroquímico","producto":"SUPER-A 450 EC","ingrediente_activo":"Prochloraz","dosis_cil":0.2,"volumen":1000,"dosis_ha":1,"precio_litro":14.33,"activo":"SI"}];
+
+const norm = s => String(s||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+const num = v => { if(typeof v==="number")return v; const n=parseFloat(String(v||"").replace(/[^\d.,-]/g,"").replace(",",".")); return isNaN(n)?0:n; };
+const fmt = (n,d=2) => n.toLocaleString("es-PE",{minimumFractionDigits:d,maximumFractionDigits:d});
+const money = n => MONEDA+" "+fmt(n);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const $ = id => document.getElementById(id);
+
+const ALIAS={codigo_sap:["codigo_sap","codigo","sap"],proveedor:["proveedor"],tipo_producto:["tipo_producto","tipo_de_producto"],
+ producto:["producto","descripcion","nombre","nombre_comercial"],ingrediente_activo:["ingrediente_activo","ia"],
+ dosis_cil:["dosis_cil","dosis_por_cil"],volumen:["volumen","volumen_usado"],dosis_ha:["dosis_ha","dosis_por_ha"],
+ precio_litro:["precio_litro","costo_por_litro","precio_por_litro"],activo:["activo"]};
+
+function parseCSV(t){const rows=[];let r=[],c="",q=false;
+  for(let i=0;i<t.length;i++){const ch=t[i];
+    if(q){if(ch=='"'){if(t[i+1]=='"'){c+='"';i++}else q=false}else c+=ch}
+    else if(ch=='"')q=true;else if(ch==","){r.push(c);c=""}
+    else if(ch=="\n"||ch=="\r"){if(ch=="\r"&&t[i+1]=="\n")i++;r.push(c);c="";rows.push(r);r=[]}else c+=ch}
+  if(c||r.length){r.push(c);rows.push(r)}return rows.filter(x=>x.some(v=>v.trim()))}
+function toObjects(rows){
+  const head=rows[0].map(h=>norm(h).replace(/[^a-z0-9]+/g,"_").replace(/^_|_$/g,""));
+  const idx={};for(const k in ALIAS)idx[k]=head.findIndex(h=>ALIAS[k].includes(h));
+  return rows.slice(1).map(r=>{const o={};for(const k in idx)o[k]=idx[k]>=0?(r[idx[k]]||"").trim():"";return o})}
+
+/* Regla: si hay dosis/cil → dosis/ha = dosis/cil × volumen ÷ 200. Si no, se usa la dosis/ha de etiqueta. */
+const haDe = (cil,vol) => cil*vol/CIL;
+function build(o,nuevo){
+  const cil=num(o.dosis_cil), vol=num(o.volumen)||1000, precio=num(o.precio_litro);
+  const base = cil>0 ? "CIL" : "HA";
+  const ha = base==="CIL" ? haDe(cil,vol) : num(o.dosis_ha);
+  return {...o,base,cil,vol,precio,ha,nuevo:!!nuevo,
+    tipo_producto:/^agro/i.test(norm(o.tipo_producto))?"Agroquímico":/^fert/i.test(norm(o.tipo_producto))?"Fertilizante":(o.tipo_producto||""),s:norm(o.producto+" "+(o.ingrediente_activo||""))};
+}
+
+let ALL=[],TIPO="";
+function cardHTML(p,i){
+  const sin = p.ha<=0;
+  const mx = p.base==="CIL"
+    ? `<div><small>Dosis / cil</small><b>${fmt(p.cil,3)} L</b></div><div><small>Volumen</small><b>${fmt(p.vol,0)} L</b></div><div><small>Dosis / ha</small><b>${fmt(p.ha,2)} L</b></div>`
+    : `<div><small>Dosis / ha</small><b>${sin?"—":fmt(p.ha,2)+" L"}</b></div><div><small>Volumen</small><b>${fmt(p.vol,0)} L</b></div><div><small>Precio / L</small><b>${money(p.precio)}</b></div>`;
+  return `<button class="card" data-i="${i}">
+   <div class="badge"><i>${esc(p.tipo_producto||"Producto")}</i><i>${p.base==="CIL"?"Dosis por cilindro":"Dosis por ha"}</i>${p.nuevo?'<i class="new">Nuevo</i>':""}</div>
+   <h3>${esc(p.producto)}</h3><div class="ia">${p.ingrediente_activo?esc(p.ingrediente_activo):"Ingrediente activo no registrado"}</div>
+   <div class="mx">${mx}</div>
+   <div class="cost"><small>Costo / ha</small><b>${sin?"Sin dosis":money(p.ha*p.precio)}</b></div></button>`;
+}
+function render(){
+  const words=norm($("q").value).split(/\s+/).filter(Boolean), t0=norm($("q").value);
+  const list=ALL.map((p,i)=>({p,i})).filter(({p})=>(!TIPO||p.tipo_producto===TIPO)&&words.every(w=>p.s.includes(w)))
+    .sort((a,b)=>(norm(a.p.producto).startsWith(t0)?0:1)-(norm(b.p.producto).startsWith(t0)?0:1));
+  $("grid").innerHTML=list.length?list.map(({p,i})=>cardHTML(p,i)).join(""):`<div class="empty">No hay productos para “${esc($("q").value)}”. Prueba con otro nombre o con el ingrediente activo.</div>`;
+  $("count").textContent=list.length+" de "+ALL.length+" productos";
+}
+$("q").addEventListener("input",render);
+$("chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;TIPO=b.dataset.t;
+  document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed",c===b));render()});
+
+/* ====== Detalle + simulador ====== */
+const dlg=$("dlg"), body=$("dbody");
+$("grid").addEventListener("click",e=>{const b=e.target.closest(".card");if(b)detalle(ALL[+b.dataset.i])});
+dlg.addEventListener("click",e=>{if(e.target===dlg)dlg.close()});
+const X='<button class="x" aria-label="Cerrar" onclick="dlg.close()">×</button>';
+
+function detalle(p){
+  const cil0 = p.base==="CIL" ? p.cil : (p.ha*CIL/p.vol);
+  body.innerHTML=`${X}<div class="badge"><i>${esc(p.tipo_producto||"Producto")}</i><i>${p.base==="CIL"?"Dosis por cilindro":"Dosis por ha"}</i></div>
+  <h2 style="margin:0;font:700 22px 'IBM Plex Sans'">${esc(p.producto)}</h2>
+  <dl>
+   <dt>Código SAP</dt><dd>${esc(p.codigo_sap||"—")}</dd>
+   ${p.proveedor?`<dt>Proveedor</dt><dd>${esc(p.proveedor)}</dd>`:""}
+   <dt>Ingrediente activo</dt><dd>${esc(p.ingrediente_activo||"—")}</dd>
+   <dt>Dosis x cil (${CIL} L)</dt><dd>${p.base==="CIL"?fmt(p.cil,3)+" L":"— (etiqueta por ha)"}</dd>
+   <dt>Volumen</dt><dd>${fmt(p.vol,0)} L</dd>
+   <dt>Dosis / ha</dt><dd>${p.ha>0?fmt(p.ha,2)+" L":"Sin dosis definida"}</dd>
+   <dt>Precio por litro</dt><dd>${money(p.precio)}</dd>
+   <dt>Costo / ha</dt><dd style="color:var(--acc)">${p.ha>0?money(p.ha*p.precio):"—"}</dd>
+  </dl>
+  <div class="sim"><h4>Simular otra dosis o volumen</h4>
+   <div class="inp">
+    <label>Dosis / cil (L)<input id="sd" type="number" step="any" min="0" inputmode="decimal" value="${+cil0.toFixed(4)}"></label>
+    <label>Volumen (L)<input id="sv" type="number" step="any" min="0" inputmode="decimal" value="${p.vol}"></label>
+   </div>
+   <div class="res"><div><small>Dosis / ha</small><b id="rh"></b></div><div class="c"><small>Costo / ha</small><b id="rc"></b></div></div>
+   <div class="note">Dosis / ha = dosis / cil × volumen ÷ ${CIL} · Costo / ha = dosis / ha × ${money(p.precio)} por litro</div>
+  </div>`;
+  const sd=$("sd"),sv=$("sv"),upd=()=>{const h=haDe(num(sd.value),num(sv.value));$("rh").textContent=fmt(h,2)+" L";$("rc").textContent=money(h*p.precio)};
+  sd.oninput=sv.oninput=upd;upd();dlg.showModal();
+}
+
+/* ====== Agregar nuevo producto ====== */
+$("addBtn").onclick=()=>{
+  body.innerHTML=`${X}<h2 style="margin:0 0 4px;font:700 22px 'IBM Plex Sans'">Agregar nuevo producto</h2>
+  <p class="sub" style="margin-bottom:14px">Dosis / ha y costo / ha se calculan solos.</p>
+  <label>Nombre comercial<input id="nn" autocomplete="off"></label>
+  <label>Ingrediente activo<input id="ni" autocomplete="off"></label>
+  <label>Tipo de producto<select id="nt"><option>Agroquímico</option><option>Fertilizante</option></select></label>
+  <div class="inp"><label>Dosis / cil (L)<input id="nd" type="number" step="any" min="0" inputmode="decimal"></label>
+  <label>Volumen (L)<input id="nv" type="number" step="any" min="0" inputmode="decimal" value="1000"></label></div>
+  <label>Precio por litro (${MONEDA})<input id="np" type="number" step="any" min="0" inputmode="decimal"></label>
+  <div class="res"><div><small>Dosis / ha</small><b id="rh">—</b></div><div class="c"><small>Costo / ha</small><b id="rc">—</b></div></div>
+  <div class="err" id="er"></div>
+  <div class="acts"><button class="btn ghost" onclick="dlg.close()">Cancelar</button><button class="btn" id="sv2">Guardar producto</button></div>`;
+  const f=["nd","nv","np"].map($),upd=()=>{const h=haDe(num(f[0].value),num(f[1].value));
+    $("rh").textContent=h>0?fmt(h,2)+" L":"—";$("rc").textContent=h>0&&num(f[2].value)>0?money(h*num(f[2].value)):"—"};
+  f.forEach(i=>i.oninput=upd);upd();
+  $("sv2").onclick=guardar;dlg.showModal();$("nn").focus();
+};
+async function guardar(){
+  const d={producto:$("nn").value.trim(),ingrediente_activo:$("ni").value.trim(),tipo_producto:$("nt").value,
+    dosis_cil:num($("nd").value),volumen:num($("nv").value),precio_litro:num($("np").value)};
+  if(!d.producto||d.dosis_cil<=0||d.volumen<=0||d.precio_litro<=0){$("er").textContent="Completa nombre, dosis / cil, volumen y precio por litro con valores mayores a 0.";return}
+  if(ALL.some(p=>norm(p.producto)===norm(d.producto))){$("er").textContent="Ya existe un producto con ese nombre.";return}
+  $("sv2").disabled=true;let guardado=false;
+  if(APPS_SCRIPT_URL){
+    try{await fetch(APPS_SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify(d)});guardado=true}
+    catch(e){$("er").textContent="No se pudo guardar en Google Sheets. Revisa tu conexión e inténtalo de nuevo.";$("sv2").disabled=false;return}
+  }
+  ALL.unshift(build(d,true));render();dlg.close();
+  $("aviso").innerHTML=`<div class="msg ${guardado?"ok":""}">${guardado?`“${esc(d.producto)}” se guardó en Google Sheets.`:`“${esc(d.producto)}” se agregó solo en esta sesión. Configura APPS_SCRIPT_URL para guardarlo en Google Sheets.`}</div>`;
+}
+
+/* ====== Carga de datos ====== */
+async function init(){
+  let data=FALLBACK,aviso="";
+  if(SHEET_CSV_URL){
+    try{const r=await fetch(SHEET_CSV_URL+(SHEET_CSV_URL.includes("?")?"&":"?")+"t="+Date.now());if(!r.ok)throw 0;
+      data=toObjects(parseCSV(await r.text()));
+      $("upd").textContent="Actualizado: "+new Date().toLocaleString("es-PE",{dateStyle:"short",timeStyle:"short"});
+    }catch(e){aviso="No se pudo leer Google Sheets. Se muestran los datos guardados en el sitio. Revisa que la hoja esté publicada en la web como CSV."}
+  }else aviso="Mostrando los datos incluidos en el sitio. Pega el enlace CSV de Google Sheets en SHEET_CSV_URL para usar tu hoja.";
+  if(aviso)$("aviso").innerHTML=`<div class="msg">${aviso}</div>`;
+  ALL=data.filter(o=>o.producto&&(o.activo||"SI").toUpperCase()!=="NO").map(o=>build(o));
+  render();
+}
+init();
+</script>
+</body>
+</html>
